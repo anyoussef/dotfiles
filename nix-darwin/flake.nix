@@ -94,6 +94,7 @@
                 pkgs.raycast
                 pkgs.iterm2
                 pkgs.firefox-devedition
+                pkgs.oh-my-zsh
 
                 # Lazyvim
                 pkgs.fzf
@@ -110,7 +111,15 @@
                 "/run/current-system/sw/bin"
               ];
 
-              programs.zsh.enable = true;
+              programs.zsh = {
+                enable = true;
+
+                oh-my-zsh = {
+                  enable = true;
+                  theme = "gozilla";
+                  plugins = ["git"];
+                };
+              };
             };
           };
         }
