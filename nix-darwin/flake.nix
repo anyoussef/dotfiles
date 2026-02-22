@@ -135,6 +135,7 @@
                 "/System/Applications/Mail.app"
                 "/Applications/Microsoft Outlook.app"
                 "/System/Applications/Calendar.app"
+                "/Users/ayous/Applications/Home Manager Apps/Spotify.app"
                 "/Applications/Minecraft.app"
                 "/Users/ayous/Applications/Home Manager Apps/Iterm2.app"
                 "/System/Applications/System Settings.app"
@@ -163,6 +164,10 @@
                   fd
                   scala_2_13
                   neovim
+                  maven
+                  pkgs.jdk11
+                  hidden-bar
+                  jetbrains.idea
                   ripgrep
                   fzf
                   lua
