@@ -1,0 +1,51 @@
+{
+  description = "youssef flake";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    darwin.url = "github:nix-darwin/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+  };
+  outputs = inputs@ { nixpkgs, home-manager, darwin, ...}: {
+    darwinConfigurations = {
+      hostname = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+      };
+    };
+    modules = [
+      ({pkgs, ...}: {
+# here go the darwin pkgs and prefs
+       programs.zsh.enable = true;
+       environment.shells = [ pkgs.bash pkgs.zsh ];
+       environment.loginShell = pkgs.zsh;
+       nixextraOptions = ''
+       experimental-features = nix-command flakes
+       '';
+       systemPackages = [ pkgs.coreutils ];
+       fonts.fontDir.enable = true;
+       fonts.fonts = [ (pkgs.nerdfonts.override { fonts = [ "jetbrains-mono" ]; }) ];
+       services.nix-daemon.enable = true;
+       })
+
+    (inputs.home-manager.darwinModules.home-manager {
+     home-manager = {
+     useGlobalPkgs = true;
+     useUserPkgs = true;
+     user.ayous.imports = [
+     ({pkgs, ...}: 
+      {
+      home.packages = [pkgs.ripgrep ];
+      home.sessionVariables = {
+      PAGER = "less";
+      EDITOR = "nvim";
+      };	
+     ];
+     ];
+     };	
+     }
+
+
+

@@ -1,156 +1,244 @@
 {
-  description = "youssef nix-darwin system flake";
+  description = "ayous macOS configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Homebrew section
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    darwin.url = "github:LnL7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Declarative tap management
-    homebrew-core = {
-	url = "github:homebrew/homebrew-core";
-	flake = false;
-    };
-    homebrew-cask = {
-	url = "github:homebrew/homebrew-cask";
-	flake = false;
-    };
-    
-    # Home Manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, homebrew-cask, home-manager, ... }:
-  let
-    configuration = { pkgs, config, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
+  outputs =
+    { self
+    , nixpkgs
+    , darwin
+    , home-manager
+    , nix-homebrew
+    , homebrew-core
+    , homebrew-cask
+    , ...
+    }:
+    let
+      system = "aarch64-darwin";
+    in
+    {
+      darwinConfigurations.fartbox = darwin.lib.darwinSystem {
+        inherit system;
 
-      system.primaryUser = "ayous";
+        modules = [
+          # ----------------------------
+          # nix-homebrew (installs brew itself)
+          # ----------------------------
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "ayous";
 
-      nixpkgs.config.allowUnfree = true;
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+              };
 
-      environment.systemPackages =
-        [ 
-	pkgs.git
-	pkgs.vim
-	pkgs.neovim
-	pkgs.mkalias
-	pkgs.tmux
-	pkgs.iterm2
-	pkgs.obsidian
-	pkgs.raycast
-	pkgs.firefox-devedition
-	pkgs.hidden-bar
+              mutableTaps = false;
+            };
+          }
 
-	# Lazy Vim Shyat
-	pkgs.curl
-	pkgs.fd
-	pkgs.ripgrep
-	pkgs.tree-sitter
-	pkgs.fzf
+          # ----------------------------
+          # System Configuration
+          # ----------------------------
+          {
+            nixpkgs.hostPlatform = system;
+            nixpkgs.config.allowUnfree = true;
+
+            system.primaryUser = "ayous";
+            system.stateVersion = 4;
+
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+            ];
+
+            programs.zsh.enable = true;
+
+            environment.systemPackages = with nixpkgs.legacyPackages.${system}; [
+              coreutils
+            ];
+
+            fonts.packages = with nixpkgs.legacyPackages.${system}; [
+              nerd-fonts.jetbrains-mono
+            ];
+
+            users.users.ayous.home = "/Users/ayous";
+            ids.gids.nixbld = 350;
+
+            # ----------------------------
+            # Declarative Homebrew
+            # ----------------------------
+            homebrew = {
+              enable = true;
+
+              onActivation = {
+                autoUpdate = false;
+                upgrade = false;
+                cleanup = "uninstall";
+              };
+
+              taps = [
+                "homebrew/homebrew-core"
+                "homebrew/homebrew-cask"
+              ];
+
+              brews = [
+                "qemu"
+                "x86_64-elf-gcc"
+              ];
+
+              casks = [
+                "visual-studio-code"
+                "steam"
+                "discord"
+                "onedrive"
+                "microsoft-outlook"
+                "blender"
+                "minecraft"
+                "tailscale-app"
+                "docker-desktop"
+                "wireshark-chmodbpf"
+              ];
+            };
+
+            # ----------------------------
+            # macOS Defaults
+            # ----------------------------
+            system.defaults.dock = {
+              autohide = true;
+              show-recents = false;
+              persistent-apps = [
+                "/Users/ayous/Applications/Home Manager Apps/Firefox Developer Edition.app"
+                "/System/Applications/Messages.app"
+                "/Users/ayous/Applications/Home Manager Apps/Obsidian.app"
+                "/Applications/Discord.app"
+                "/Applications/Blender.app"
+                "/Applications/Visual Studio Code.app"
+                "/System/Applications/Mail.app"
+                "/Applications/Microsoft Outlook.app"
+                "/System/Applications/Calendar.app"
+                "/Users/ayous/Applications/Home Manager Apps/Spotify.app"
+                "/Applications/Minecraft.app"
+                "/Users/ayous/Applications/Home Manager Apps/Iterm2.app"
+                "/System/Applications/System Settings.app"
+              ];
+            };
+          }
+
+          # ----------------------------
+          # Home Manager
+          # ----------------------------
+          home-manager.darwinModules.home-manager
+
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+
+              users.ayous = { pkgs, ... }: {
+                home.username = "ayous";
+                home.homeDirectory = "/Users/ayous";
+                home.stateVersion = "22.11";
+
+                home.packages = with pkgs; [
+                  git
+                  cargo
+                  fd
+                  scala_2_13
+                  neovim
+                  postgresql_18
+                  pyenv
+                  maven
+                  pkgs.jdk11
+                  hidden-bar
+                  jetbrains.idea
+                  ripgrep
+                  fzf
+                  lua
+                  wget
+                  luarocks
+                  curl
+                  tree-sitter
+                  spotify
+                  firefox-devedition
+                  raycast
+                  iterm2
+                  obsidian
+                  lazygit
+                  tmux
+                  docker
+                  inetutils
+                ];
+
+                programs.zsh = {
+                  enable = true;
+
+                  shellAliases =
+                    {
+                      l = "ls -alh";
+                      ll = "ls -l";
+                      ls = "ls --color=tty";
+
+                      # CS476
+                      scalaenv = "nix develop --impure --expr 'with import <nixpkgs> {}; mkShell { packages = [ jdk17 coursier jupyter ]; }'";
+
+
+
+                      # Python
+                      pipenvi = "python3 -m venv .venv";
+                      pipenv = "source .venv/bin/activate";
+
+                      # Nix
+                      nixre = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#fartbox";
+                      nixup = "nix flake update --flake ~/.config/nix-darwin/";
+                      nixpush = ''
+                        cp -r /Users/ayous/.config/nix-darwin /Users/ayous/dotfiles/nix-darwin &&
+                        cd ~/dotfiles &&
+                        git add nix-darwin &&
+                        if ! git diff-index --quiet HEAD --; then
+                          git commit -m "update nix-darwin"
+                          git push
+                        else
+                          echo "No changes to commit"
+                        fi
+                      '';
+                    };
+
+                  oh-my-zsh = {
+                    enable = true;
+                    theme = "gozilla";
+                    plugins = [ "git" ];
+                  };
+                };
+              };
+            };
+          }
         ];
-
-      fonts.packages = with pkgs; [
-	nerd-fonts.jetbrains-mono
-	];
-
-	system.activationScripts.applications.text = let
-	  env = pkgs.buildEnv {
-	    name = "system-applications";
-	    paths = config.environment.systemPackages;
-	    pathsToLink = ["/Applications"];
-	  };
-	in
-	  pkgs.lib.mkForce ''
-	  # Set up applications.
-	  echo "setting up /Applications..." >&2
-	  rm -rf /Applications/Nix\ Apps
-	  mkdir -p /Applications/Nix\ Apps
-	  find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-	  while read -r src; do
-	    app_name=$(basename "$src")
-	    echo "copying $src" >&2
-	    ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-	  done
-	      '';
-	
-	/*nix-homebrew.darwinModules.nix-homebrew = {
-		enable = true;
-		enableRosetta = true;
-		user = "ayous";
-		packages = [];
-		casks = ["minecraft"];
-		taps = [];
-	};*/
-
-	system.defaults = {
-		dock = {
-			autohide = true;
-			show-recents = false;
-		};
-		NSGlobalDomain = {
-			NSAutomaticCapitalizationEnabled = false;
-			NSAutomaticSpellingCorrectionEnabled = false;
-		};
-	};
-
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
-     
-      users.users.ayous = {
-	home = "/Users/ayous";
-	shell = pkgs.zsh;
       };
-	
-      environment.shells = [ pkgs.zsh ];
-
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 6;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
     };
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#fartbox
-    darwinConfigurations."fartbox" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-		configuration
-		nix-homebrew.darwinModules.nix-homebrew {
-			nix-homebrew = {
-				enable = true;
-				enableRosetta = true;
-				user = "ayous";
-				};
-			}
-		home-manager.darwinModules.home-manager {
-			home-manager.users.ayous = { pkgs, ...}: {
-				home.stateVersion = "24.11";
-				programs.zsh = {
-					enable = true;
-					oh-my-zsh = {
-						enable = true;
-						theme = "robbyrussell";
-						plugins = [ "git" ];
-					};
-				};
-			};
-		}
-	 ];
-    };
-  };
 }
+
+
