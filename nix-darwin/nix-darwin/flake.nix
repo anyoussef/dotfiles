@@ -121,6 +121,7 @@
                 "tailscale-app"
                 "docker-desktop"
                 "wireshark-chmodbpf"
+                "obs"
               ];
             };
 
