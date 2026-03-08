@@ -85,7 +85,12 @@
               nerd-fonts.jetbrains-mono
             ];
 
-            users.users.ayous.home = "/Users/ayous";
+
+            users.users.ayous = {
+              home = "/Users/ayous";
+              shell = nixpkgs.legacyPackages.${system}.zsh;
+            };
+
             ids.gids.nixbld = 350;
 
             # ----------------------------
@@ -132,7 +137,7 @@
               autohide = true;
               show-recents = false;
               persistent-apps = [
-                "/Users/ayous/Applications/Home Manager Apps/Firefox Developer Edition.app"
+                "/Applications/Firefox Developer Edition.app"
                 "/System/Applications/Messages.app"
                 "/Users/ayous/Applications/Home Manager Apps/Obsidian.app"
                 "/Applications/Discord.app"
@@ -173,7 +178,7 @@
                   postgresql_18
                   pyenv
                   maven
-                  pkgs.jdk11
+                  pkgs.jdk8
                   hidden-bar
                   jetbrains.idea
                   ripgrep
@@ -207,8 +212,6 @@
 
                       # CS476
                       scalaenv = "nix develop --impure --expr 'with import <nixpkgs> {}; mkShell { packages = [ jdk17 coursier jupyter ]; }'";
-
-
 
                       # Python
                       pipenvi = "python3 -m venv .venv";
