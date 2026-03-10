@@ -127,6 +127,7 @@
                 "docker-desktop"
                 "wireshark-chmodbpf"
                 "obs"
+                "microsoft-word"
               ];
             };
 
