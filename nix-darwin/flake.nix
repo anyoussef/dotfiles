@@ -116,6 +116,7 @@
                 "microsoft-outlook"
                 "blender"
                 "minecraft"
+                "firefox@developer-edition"
               ];
             };
 
@@ -176,7 +177,6 @@
                   curl
                   tree-sitter
                   spotify
-                  firefox-devedition
                   raycast
                   iterm2
                   obsidian
