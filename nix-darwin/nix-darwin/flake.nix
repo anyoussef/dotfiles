@@ -199,7 +199,6 @@
                   docker
                   inetutils
                   SDL2
-                  python3
                 ];
 
                 programs.zsh = {
