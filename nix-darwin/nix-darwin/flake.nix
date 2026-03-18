@@ -179,7 +179,6 @@
                   scala_2_13
                   neovim
                   postgresql_18
-                  pyenv
                   maven
                   pkgs.jdk8
                   hidden-bar
