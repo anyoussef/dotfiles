@@ -127,6 +127,7 @@
                 "docker-desktop"
                 "wireshark-chmodbpf"
                 "obs"
+                "zoom"
                 "microsoft-word"
                 "microsoft-powerpoint"
                 "firefox@developer-edition"
