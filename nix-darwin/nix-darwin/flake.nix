@@ -128,6 +128,7 @@
                 "wireshark-chmodbpf"
                 "obs"
                 "zoom"
+                "curseforge"
                 "microsoft-word"
                 "microsoft-powerpoint"
                 "firefox@developer-edition"
