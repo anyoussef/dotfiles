@@ -175,16 +175,16 @@
                 home.stateVersion = "22.11";
 
                 home.packages = with pkgs; [
+                  python314
                   git
                   cargo
                   fd
-                  scala_2_13
                   neovim
-                  postgresql_18
                   maven
                   pkgs.jdk8
                   hidden-bar
                   jetbrains.idea
+                  jetbrains.rider
                   ripgrep
                   fzf
                   lua
