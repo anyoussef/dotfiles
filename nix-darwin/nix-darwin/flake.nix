@@ -113,6 +113,7 @@
               brews = [
                 "qemu"
                 "x86_64-elf-gcc"
+                "nasm"
               ];
 
               casks = [
@@ -213,7 +214,7 @@
                       ls = "ls --color=tty";
 
                       # CS476
-                      scalaenv = "nix develop --impure --expr 'with import <nixpkgs> {}; mkShell { packages = [ jdk17 coursier jupyter ]; }'";
+                      scalaenv = "nix develop --impure --expr 'with import <nixpkgs> {}; mkShell { packages = [ jdk17 coursier jupyter ]; shellHook = \"export SCALA_VERSION=2.13\"; }'";
 
                       # Python
                       pipenvi = "python3 -m venv .venv";
