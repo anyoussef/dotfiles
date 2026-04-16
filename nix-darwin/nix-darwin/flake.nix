@@ -220,6 +220,9 @@
                       pipenvi = "python3 -m venv .venv";
                       pipenv = "source .venv/bin/activate";
 
+                      # General Flakes
+                      nixflake = "wget https://github.com/anyoussef/dotfiles/raw/refs/heads/master/flake.nix && nvim";
+
                       # Nix
                       nixre = "sudo darwin-rebuild switch --flake ~/.config/nix-darwin#fartbox";
                       nixup = "nix flake update --flake ~/.config/nix-darwin/";
