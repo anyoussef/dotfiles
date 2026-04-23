@@ -127,8 +127,8 @@
                 "tailscale-app"
                 "docker-desktop"
                 "wireshark-chmodbpf"
-                "obs"
                 "zoom"
+                "obs"
                 "curseforge"
                 "microsoft-word"
                 "microsoft-powerpoint"
@@ -202,6 +202,7 @@
                   docker
                   inetutils
                   SDL2
+                  nodejs_24
                 ];
 
                 programs.zsh = {
