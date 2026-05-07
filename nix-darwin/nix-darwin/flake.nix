@@ -100,8 +100,8 @@
               enable = true;
 
               onActivation = {
-                autoUpdate = false;
-                upgrade = false;
+                autoUpdate = true;
+                upgrade = true;
                 cleanup = "uninstall";
               };
 
@@ -118,6 +118,7 @@
 
               casks = [
                 "visual-studio-code"
+                "spotify"
                 "steam"
                 "discord"
                 "onedrive"
@@ -126,7 +127,6 @@
                 "minecraft"
                 "tailscale-app"
                 "docker-desktop"
-                "wireshark-chmodbpf"
                 "zoom"
                 "obs"
                 "curseforge"
@@ -152,7 +152,7 @@
                 "/System/Applications/Mail.app"
                 "/Applications/Microsoft Outlook.app"
                 "/System/Applications/Calendar.app"
-                "/Users/ayous/Applications/Home Manager Apps/Spotify.app"
+                "/Applications/Spotify.app"
                 "/Applications/Minecraft.app"
                 "/Users/ayous/Applications/Home Manager Apps/Iterm2.app"
                 "/System/Applications/System Settings.app"
@@ -193,7 +193,6 @@
                   luarocks
                   curl
                   tree-sitter
-                  spotify
                   raycast
                   iterm2
                   obsidian
@@ -203,6 +202,7 @@
                   inetutils
                   SDL2
                   nodejs_24
+                  claude-code
                 ];
 
                 programs.zsh = {
