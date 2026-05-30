@@ -124,12 +124,10 @@
                 "onedrive"
                 "microsoft-outlook"
                 "blender"
-                "minecraft"
                 "tailscale-app"
                 "docker-desktop"
                 "zoom"
                 "obs"
-                "curseforge"
                 "microsoft-word"
                 "microsoft-powerpoint"
                 "firefox@developer-edition"
@@ -153,7 +151,6 @@
                 "/Applications/Microsoft Outlook.app"
                 "/System/Applications/Calendar.app"
                 "/Applications/Spotify.app"
-                "/Applications/Minecraft.app"
                 "/Users/ayous/Applications/Home Manager Apps/Iterm2.app"
                 "/System/Applications/System Settings.app"
               ];
@@ -192,6 +189,7 @@
                   wget
                   luarocks
                   curl
+                  wimlib
                   tree-sitter
                   raycast
                   iterm2
