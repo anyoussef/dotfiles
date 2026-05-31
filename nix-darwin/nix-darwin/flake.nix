@@ -118,7 +118,9 @@
 
               casks = [
                 "visual-studio-code"
+                "runelite"
                 "spotify"
+                "jagex"
                 "steam"
                 "discord"
                 "onedrive"
