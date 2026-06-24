@@ -124,6 +124,9 @@
                 "steam"
                 "discord"
                 "onedrive"
+                "slack"
+                "dolphin"
+                "pcsx2"
                 "microsoft-outlook"
                 "blender"
                 "tailscale-app"
@@ -177,6 +180,7 @@
                 home.packages = with pkgs; [
                   python314
                   git
+                  utm
                   cargo
                   fd
                   neovim
