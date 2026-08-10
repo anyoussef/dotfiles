@@ -65,6 +65,7 @@
           # ----------------------------
           {
             nixpkgs.hostPlatform = system;
+            documentation.enable = false;
             nixpkgs.config.allowUnfree = true;
 
             system.primaryUser = "ayous";
@@ -117,25 +118,29 @@
               ];
 
               casks = [
-                "visual-studio-code"
-                "runelite"
+                "iterm2"
                 "spotify"
-                "jagex"
+                "runelite"
                 "steam"
                 "discord"
+                "curseforge"
+                "raycast"
+                "obsidian"
                 "onedrive"
-                "slack"
                 "dolphin"
-                "pcsx2"
-                "microsoft-outlook"
-                "blender"
+                "intellij-idea"
                 "tailscale-app"
                 "docker-desktop"
+                "blender"
                 "zoom"
                 "obs"
                 "microsoft-word"
+                "microsoft-outlook"
                 "microsoft-powerpoint"
+                "visual-studio-code"
                 "firefox@developer-edition"
+                "claude"
+                "gcloud-cli"
               ];
             };
 
@@ -148,7 +153,7 @@
               persistent-apps = [
                 "/Applications/Firefox Developer Edition.app"
                 "/System/Applications/Messages.app"
-                "/Users/ayous/Applications/Home Manager Apps/Obsidian.app"
+                "/Applications/Obsidian.app"
                 "/Applications/Discord.app"
                 "/Applications/Blender.app"
                 "/Applications/Visual Studio Code.app"
@@ -156,7 +161,7 @@
                 "/Applications/Microsoft Outlook.app"
                 "/System/Applications/Calendar.app"
                 "/Applications/Spotify.app"
-                "/Users/ayous/Applications/Home Manager Apps/Iterm2.app"
+                "/Applications/Iterm.app"
                 "/System/Applications/System Settings.app"
               ];
             };
@@ -179,16 +184,16 @@
 
                 home.packages = with pkgs; [
                   python314
+                  uv
                   git
                   utm
                   cargo
+                  rustc
                   fd
                   neovim
                   maven
                   pkgs.jdk8
                   hidden-bar
-                  jetbrains.idea
-                  jetbrains.rider
                   ripgrep
                   fzf
                   lua
@@ -197,9 +202,6 @@
                   curl
                   wimlib
                   tree-sitter
-                  raycast
-                  iterm2
-                  obsidian
                   lazygit
                   tmux
                   docker
@@ -242,6 +244,9 @@
                           echo "No changes to commit"
                         fi
                       '';
+
+                      # SSH Destinations
+                      ssh-mc = "s";
                     };
 
                   oh-my-zsh = {
