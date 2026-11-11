@@ -1,0 +1,30 @@
+{ pkgs, ... }: {
+  home.packages = with pkgs; [
+    python314
+    uv
+    git
+    utm
+    cargo
+    rustc
+    fd
+    neovim
+    maven
+    jdk8
+    hidden-bar
+    ripgrep
+    fzf
+    lua
+    wget
+    luarocks
+    curl
+    wimlib
+    tree-sitter
+    lazygit
+    tmux
+    docker
+    inetutils
+    SDL2
+    nodejs_24
+    claude-code
+  ];
+}
