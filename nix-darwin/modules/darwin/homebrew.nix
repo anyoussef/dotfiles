@@ -40,7 +40,6 @@
       "displaylink"
       "google-chrome"
       "spotify"
-      "runelite"
       "discord"
       "raycast"
       "obsidian"
@@ -56,7 +55,6 @@
       "microsoft-powerpoint"
       "visual-studio-code"
       "firefox@developer-edition"
-      "firefox"
       "claude"
     ];
   };
